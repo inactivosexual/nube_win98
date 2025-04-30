@@ -2,7 +2,7 @@
 
 ¡Bienvenido a Win98 Simulator! Un proyecto personal creado por Ignacio, que recrea la nostálgica experiencia del escritorio de Windows 98 directamente en tu navegador web.
 
-public/images/screenshot.png
+[![Win98 Screenshot](public/images/screenshot.png)]
 ## Descripción Breve
 
 Esta aplicación web simula el entorno de escritorio clásico de Windows 98, permitiendo a los usuarios:
