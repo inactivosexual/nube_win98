@@ -1,5 +1,7 @@
 # Win98 Simulator - Tu Escritorio Retro en la Nube
 
+**⚠️ Atención: Este proyecto se encuentra actualmente en fase Beta.** Funcionalidades básicas están implementadas, pero puede haber bugs o características incompletas. ¡Tu feedback es bienvenido!
+
 ¡Bienvenido a Win98 Simulator! Un proyecto personal creado por Ignacio, que recrea la nostálgica experiencia del escritorio de Windows 98 directamente en tu navegador web.
 
 [![Win98 Screenshot](public/images/screenshot.png)]
