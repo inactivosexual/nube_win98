@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ignacio.Cloud</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Icono Opcional Estilo Win98 -->
+    <!-- <link rel="icon" href="images/win98_icon.ico" type="image/x-icon"> -->
+</head>
+<body>
+
+    <!-- === Contenedor de Autenticación (Inicialmente visible) === -->
+    <div id="auth-container" class="win98-window auth-dialog">
+        <div class="title-bar">
+            <div class="title-bar-text">Bienvenido - Iniciar Sesión</div>
+        </div>
+        <div class="window-body">
+            <!-- Formulario de Login -->
+            <div id="login-form">
+                <h3>Iniciar Sesión</h3>
+                <form id="login">
+                    <div class="field-row-stacked">
+                        <label for="login-username">Nombre de Usuario:</label>
+                        <input id="login-username" name="username" type="text" class="win98-textfield" required autocomplete="username">
+                    </div>
+                     <div class="field-row-stacked">
+                        <label for="login-password">Contraseña:</label>
+                        <input id="login-password" name="password" type="password" class="win98-textfield" required autocomplete="current-password">
+                    </div>
+                    <div class="auth-buttons">
+                        <button type="submit" class="win98-button">Entrar</button>
+                    </div>
+                    <p class="auth-switch">¿No tienes cuenta? <a href="#" id="show-register">Regístrate aquí</a></p>
+                    <p id="login-error" class="error-message" aria-live="assertive"></p>
+                </form>
+            </div>
+            <!-- Formulario de Registro -->
+            <div id="register-form" style="display: none;">
+                 <h3>Crear Nueva Cuenta</h3>
+                <form id="register">
+                    <div class="field-row-stacked">
+                        <label for="register-username">Nombre de Usuario:</label>
+                        <input id="register-username" name="username" type="text" class="win98-textfield" required minlength="3" autocomplete="username">
+                    </div>
+                     <div class="field-row-stacked">
+                        <label for="register-password">Contraseña:</label>
+                        <input id="register-password" name="password" type="password" class="win98-textfield" required minlength="6" autocomplete="new-password">
+                    </div>
+                     <div class="field-row-stacked">
+                        <label for="register-confirm-password">Confirmar Contraseña:</label>
+                        <input id="register-confirm-password" name="confirmPassword" type="password" class="win98-textfield" required autocomplete="new-password">
+                    </div>
+                    <div class="auth-buttons">
+                        <button type="submit" class="win98-button">Registrar</button>
+                    </div>
+                    <p class="auth-switch">¿Ya tienes cuenta? <a href="#" id="show-login">Inicia Sesión</a></p>
+                    <p id="register-error" class="error-message" aria-live="assertive"></p>
+                    <p id="register-success" class="success-message" aria-live="polite"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- === Contenedor Principal de la UI (Inicialmente oculto) === -->
+    <div id="main-ui" style="display: none;">
+        <!-- Escritorio -->
+        <div id="desktop">
+            <!-- Iconos se añadirán aquí dinámicamente por JS -->
+            <!-- Ejemplo manual (solo para referencia, será generado por JS):
+            <div class="desktop-icon" tabindex="0" data-item-id="1" data-item-type="FOLDER">
+                <img src="images/folder.png" alt="Mi Carpeta" width="32" height="32">
+                <span class="icon-text">Mi Carpeta</span>
+            </div>
+             -->
+        </div>
+
+        <!-- Barra de Tareas -->
+        <div id="taskbar">
+            <button id="start-button" class="win98-button">
+                <img src="images/win-logo.png" alt="Win" width="16" height="16"> <!-- Necesitas 'win-logo.png' -->
+                <span>Inicio</span>
+            </button>
+            <!-- Separador visual opcional -->
+            <div class="taskbar-separator"></div>
+            <div id="taskbar-windows">
+                <!-- Botones de ventanas minimizadas se añaden aquí por JS -->
+            </div>
+            <!-- Separador visual opcional -->
+            <div class="taskbar-separator"></div>
+            <!-- Indicador de Almacenamiento -->
+            <div id="storage-indicator" class="win98-inset" title="Almacenamiento Usado / Total">
+                <span id="storage-text">-- / --</span>
+                <img src="images/diskdrive.png" alt="Disk" width="16" height="16" class="storage-icon"> <!-- Necesitas 'diskdrive.png' -->
+           </div>
+            <!-- Reloj -->
+            <div id="clock" class="win98-inset">
+                00:00
+            </div>
+        </div>
+        <!-- === MENÚ INICIO (Nuevo) === -->
+        <div id="start-menu" class="win98-start-menu" style="display: none; position: absolute; z-index: 1500;">
+            <!-- Banner Lateral Opcional -->
+            <div class="start-menu-banner">Ignacio.<span>cloud</span></div>
+            <!-- Contenedor de Opciones -->
+            <ul class="start-menu-items">
+                <!-- Necesitarás iconos pequeños (16x16 o 24x24) para estas opciones -->
+                <li>
+                    <button id="start-menu-wallpaper">
+                        <img src="images/icon_display_settings.png" alt="" width="24" height="24">
+                        <span>Cambiar Fondo</span>
+                    </button>
+                </li>
+                <li class="separator"></li> <!-- Separador -->
+                <li>
+                    <button id="start-menu-logout">
+                        <img src="images/icon_logout.png" alt="" width="24" height="24">
+                        <span>Cerrar Sesión</span>
+                    </button>
+                </li>
+                <!-- Aquí se podrían añadir más opciones en el futuro -->
+            </ul>
+        </div>
+        <!-- Fin Menú Inicio -->
+
+        <!-- Menú Contextual (Oculto, se posiciona y rellena con JS) -->
+        <ul id="context-menu" class="win98-menu" style="display: none; position: absolute; z-index: 2000;">
+            <!-- Opciones se añadirán dinámicamente -->
+        </ul>
+
+        <!-- === Plantillas (Templates) para clonar con JS === -->
+
+        <!-- Plantilla para Iconos (Escritorio y Carpetas) -->
+        <template id="icon-template">
+            <div class="desktop-icon" tabindex="0"> <!-- tabindex para foco/seleccion -->
+                <img src="images/unknown.png" alt="" width="32" height="32"> <!-- Icono por defecto -->
+                <span class="icon-text">Nombre Item</span>
+            </div>
+        </template>
+
+        <!-- Plantilla Base para Ventanas -->
+        <template id="window-template">
+            <div class="win98-window draggable-window">
+                <div class="title-bar draggable-handle"> <!-- handle para arrastrar -->
+                    <div class="title-bar-text">Ventana</div>
+                    <div class="title-bar-controls">
+                        <button aria-label="Minimizar" class="win98-button btn-minimize" title="Minimizar"></button>
+                        <button aria-label="Maximizar" class="win98-button btn-maximize" title="Maximizar"></button> <!-- Max no implementado aún -->
+                        <button aria-label="Cerrar" class="win98-button btn-close" title="Cerrar"></button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <!-- Contenido específico de la ventana (otro template, etc.) -->
+                </div>
+                <!-- (Opcional) Status bar -->
+                <!-- <div class="status-bar"><div class="status-bar-field"></div></div> -->
+            </div>
+        </template>
+
+        <!-- Plantilla para Contenido de Reproductor de Video -->
+        <template id="video-player-template">
+            <div class="media-container video-container">
+                <video controls width="100%" height="auto" preload="metadata">
+                    <source src="" type=""> <!-- src y type dinámicos -->
+                    Tu navegador no soporta la etiqueta de video.
+                </video>
+            </div>
+        </template>
+
+         <!-- Plantilla para Contenido de Reproductor de Audio -->
+        <template id="audio-player-template">
+             <div class="media-container audio-container">
+                 <div class="audio-info">
+                     <img src="images/music_icon.png" alt="Audio" class="audio-icon"> <!-- Icono genérico -->
+                     <div class="audio-metadata">
+                         <p class="audio-title">Cargando...</p>
+                         <p class="audio-artist"></p>
+                         <p class="audio-album"></p>
+                     </div>
+                 </div>
+                 <audio controls preload="metadata" style="width: 100%;">
+                     <source src="" type=""> <!-- src y type dinámicos -->
+                     Tu navegador no soporta la etiqueta de audio.
+                 </audio>
+             </div>
+        </template>
+
+        <!-- Plantilla para Contenido de Visor/Editor de Texto -->
+        <template id="text-editor-template">
+             <div class="text-editor-container">
+                 <div class="editor-menu" style="display: none;"> <!-- Menú Archivo (opcional) -->
+                     <button class="win98-button btn-save-text">Guardar</button>
+                 </div>
+                 <textarea class="text-editor-area win98-inset" spellcheck="false"></textarea>
+             </div>
+        </template>
+
+        <!-- Plantilla para Contenido de Vista de Carpeta -->
+        <template id="folder-view-template">
+             <div class="folder-view">
+                <!-- Barra de herramientas (opcional, adaptar botones según contexto) -->
+                 <div class="folder-toolbar win98-toolbar">
+                     <button class="win98-button btn-go-back" title="Atrás" disabled><</button> <!-- Necesita lógica -->
+                     <button class="win98-button btn-go-up" title="Subir Nivel" disabled>↑</button> <!-- Necesita lógica -->
+                     <span class="toolbar-separator"></span>
+                     <button class="win98-button btn-create-folder" title="Crear Nueva Carpeta">Nueva Carpeta</button>
+                     <button class="win98-button btn-create-shortcut" title="Crear Acceso Directo">Nuevo Acceso</button>
+                     <button class="win98-button btn-upload-file" title="Subir Archivo">Subir</button>
+                 </div>
+                 <!-- Área donde se mostrarán los iconos dentro de la carpeta -->
+                 <div class="folder-content win98-inset content-area">
+                     <!-- Iconos se añadirán aquí -->
+                 </div>
+                 <!-- Barra de estado (opcional) -->
+                 <div class="status-bar">
+                     <div class="status-bar-field num-items-field">0 objeto(s)</div>
+                     <div class="status-bar-field free-space-field"></div> <!-- Podría mostrar espacio libre global -->
+                 </div>
+             </div>
+        </template>
+
+         <!-- Plantilla para Diálogo: Crear Carpeta -->
+        <template id="create-folder-dialog-template">
+            <div class="dialog-content">
+                <p><label for="new-folder-name">Nombre de la carpeta:</label></p>
+                <input type="text" id="new-folder-name" class="win98-textfield" required>
+                <div class="dialog-buttons">
+                     <button class="win98-button btn-ok">Aceptar</button>
+                     <button class="win98-button btn-cancel">Cancelar</button>
+                </div>
+                <p class="error-message" style="display:none;" aria-live="assertive"></p>
+            </div>
+        </template>
+
+        <!-- Plantilla para Diálogo: Crear Acceso Directo -->
+        <template id="create-shortcut-dialog-template">
+             <div class="dialog-content">
+                <form id="shortcut-form"> <!-- Usar form para posible validación HTML5 -->
+                    <div class="field-row-stacked">
+                        <label for="shortcut-name">Nombre del acceso directo:</label>
+                        <input type="text" id="shortcut-name" name="name" class="win98-textfield" required>
+                    </div>
+                     <div class="field-row-stacked">
+                        <label for="shortcut-url">URL de destino (ej: https://...):</label>
+                        <input type="url" id="shortcut-url" name="targetUrl" class="win98-textfield" required placeholder="https://ejemplo.com">
+                    </div>
+                     <div class="field-row-stacked">
+                        <label for="shortcut-icon">Icono personalizado (opcional, png/gif/jpg):</label>
+                        <input type="file" id="shortcut-icon" name="icon" class="win98-button" accept="image/png, image/gif, image/jpeg" style="min-width: unset; width: 100%;">
+                    </div>
+                    <div class="dialog-buttons">
+                         <button type="submit" class="win98-button btn-ok">Crear</button>
+                         <button type="button" class="win98-button btn-cancel">Cancelar</button>
+                    </div>
+                     <p class="error-message" style="display:none;" aria-live="assertive"></p>
+                </form>
+             </div>
+        </template>
+
+        <!-- Plantilla para Diálogo: Subir Archivo -->
+        <template id="upload-file-dialog-template">
+            <div class="dialog-content">
+                 <form id="upload-form">
+                    <div class="field-row-stacked">
+                         <label for="file-upload-input">Selecciona archivo a subir:</label>
+                         <!-- Añadir 'multiple' si quieres permitir subida múltiple (requiere más cambios en JS) -->
+                         <input type="file" id="file-upload-input" name="file" class="win98-button" required style="min-width: unset; width: 100%;">
+                     </div>
+                     <!-- Opcional: Renombrar al subir -->
+                     <!-- <div class="field-row-stacked">
+                         <label for="file-upload-name">Nombre (opcional, si no usa el original):</label>
+                         <input type="text" id="file-upload-name" name="name" class="win98-textfield">
+                     </div> -->
+                     <div class="dialog-buttons">
+                         <button type="submit" class="win98-button btn-ok">Subir</button>
+                         <button type="button" class="win98-button btn-cancel">Cancelar</button>
+                     </div>
+                     <p class="error-message" style="display:none;" aria-live="assertive"></p>
+                     <!-- Barra de progreso (simple) -->
+                     <div class="progress-bar" style="display: none; margin-top: 10px;">
+                        <div class="progress-bar-fill" style="width: 0%;"></div>
+                     </div>
+                 </form>
+             </div>
+        </template>
+
+    </div> <!-- Fin de #main-ui -->
+
+    <!-- === Scripts JS (Cargar en orden correcto) === -->
+    <script src="js/api.js"></script>   <!-- Utilidades API -->
+    <script src="js/ui.js"></script>    <!-- Utilidades UI -->
+    <script src="js/main.js"></script>  <!-- Lógica Principal -->
+
+</body>
+</html>

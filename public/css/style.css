@@ -1,0 +1,902 @@
+/* ============================================= */
+/* public/css/style.css                          */
+/* Estilos para Windows 98 Simulator           */
+/* ============================================= */
+
+/* --- Reset y Base --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: "Tahoma", "MS Sans Serif", "Verdana", sans-serif; /* Tahoma es más común y legible */
+    font-size: 11px; /* Tamaño clásico más preciso */
+    background-color: #008080; /* Teal clásico de fondo */
+    color: #000000;
+    overflow: hidden; /* Evita scrollbars en el body */
+    height: 100%;
+    width: 100%;
+    user-select: none; /* Evitar selección de texto accidental */
+    -webkit-font-smoothing: none; /* Intentar look pixelado */
+    -moz-osx-font-smoothing: grayscale;
+    cursor: default; /* Cursor estándar de Windows */
+    display: flex; /* Para centrar auth al inicio */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ocultar UI principal al inicio */
+body > #main-ui {
+    display: none;
+}
+
+/* Mostrar Auth al inicio */
+body > #auth-container {
+    display: block; /* O 'flex' si necesita centrado interno */
+}
+
+/* Estilos cuando la UI principal está activa */
+body.app-loaded {
+    display: block; /* Quitar centrado */
+}
+body.app-loaded > #auth-container {
+    display: none;
+}
+body.app-loaded > #main-ui {
+    display: flex; /* Mostrar UI principal (flex para layout desktop/taskbar) */
+    flex-direction: column;
+    height: 100%; /* Asegurar que ocupe toda la altura */
+}
+/* --- Menú Inicio --- */
+.win98-start-menu {
+    background-color: #c0c0c0;
+    border: 1px solid;
+    border-color: #ffffff #808080 #808080 #ffffff; /* Borde outset */
+    box-shadow: 1px 1px 0 1px #a0a0a0, 2px 2px 4px rgba(0,0,0,0.4);
+    padding: 2px;
+    width: 180px; /* Ancho típico, ajustar si es necesario */
+    display: flex; /* Para posicionar banner y items */
+    /* Posición inicial gestionada por JS, pero asegurar bottom/left */
+    bottom: 28px; /* Altura de la taskbar */
+    left: 0;
+}
+
+/* Banner lateral vertical */
+.start-menu-banner {
+    background-color: #808080; /* Gris oscuro */
+    color: #c0c0c0; /* Texto gris claro */
+    writing-mode: vertical-rl; /* Texto vertical */
+    transform: rotate(180deg); /* Orientación correcta */
+    font-weight: bold;
+    font-size: 20px; /* Tamaño grande */
+    padding: 10px 5px;
+    text-align: center;
+    margin-right: 1px; /* Separación fina */
+    white-space: nowrap; /* Evitar salto de línea */
+    flex-shrink: 0; /* No encoger */
+}
+.start-menu-banner span { /* Para el '98' */
+    color: #ffffff; /* Texto blanco */
+    font-style: italic;
+    font-weight: bold; /* Puede ser bold también */
+}
+
+/* Lista de items */
+.start-menu-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Ocupar resto del espacio */
+}
+.start-menu-items li {
+    padding: 0;
+    margin: 0;
+}
+.start-menu-items button {
+    background: none;
+    border: 1px solid transparent;
+    box-shadow: none;
+    width: 100%;
+    text-align: left;
+    padding: 5px 10px 5px 5px; /* Padding: top right bottom left */
+    min-width: unset;
+    min-height: 30px; /* Alto generoso para icono y texto */
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre icono y texto */
+    white-space: nowrap;
+    cursor: default;
+    font-size: 11px;
+}
+.start-menu-items button img {
+    width: 24px; /* Ajustar si usas iconos 16x16 */
+    height: 24px;
+    flex-shrink: 0;
+}
+.start-menu-items button span {
+    flex-grow: 1; /* Que el texto ocupe espacio */
+}
+
+/* Hover/Focus en items del menú inicio */
+.start-menu-items button:hover,
+.start-menu-items button:focus {
+    background-color: #000080; /* Azul de selección */
+    color: #ffffff;
+    outline: none;
+}
+.start-menu-items button:active {
+    background-color: #000080;
+    color: #ffffff;
+    padding: 5px 10px 5px 5px; /* Evitar desplazamiento */
+}
+
+/* Separador */
+.start-menu-items li.separator {
+    height: 1px;
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #ffffff;
+    margin: 3px 2px; /* Margen vertical y horizontal */
+    padding: 0;
+    min-height: unset;
+}
+
+button, input, select, textarea, label {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+a {
+    color: #0000FF;
+    text-decoration: underline;
+}
+a:hover {
+    color: #800080;
+}
+
+img {
+    image-rendering: pixelated; /* Crucial para iconos pixel art */
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* --- Controles Estilo Win98 --- */
+
+/* Botón Estándar */
+.win98-button {
+    background-color: #c0c0c0; /* Gris estándar */
+    border: 1px solid;
+    border-color: #ffffff #808080 #808080 #ffffff; /* top left right bottom */
+    box-shadow: inset 1px 1px 0px 1px #dbdbdb, inset -1px -1px 0px 1px #a0a0a0; /* Sombra interna sutil */
+    padding: 3px 12px;
+    min-width: 75px;
+    min-height: 23px;
+    outline: none;
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Botón Presionado / Activo */
+.win98-button:active,
+.win98-button.active {
+    background-color: #e0e0e0;
+    border-color: #808080 #ffffff #ffffff #808080; /* Invertir bordes */
+    box-shadow: inset 1px 1px 0px 1px #a0a0a0; /* Sombra invertida */
+    padding: 4px 11px 2px 13px; /* Desplazamiento visual */
+}
+
+/* Foco en Botón (borde punteado interior) */
+.win98-button:focus {
+    outline: 1px dotted #000000;
+    outline-offset: -4px;
+}
+/* Anular estilo de foco en active para que no se superpongan */
+.win98-button:active:focus {
+    outline: none;
+}
+
+
+/* Botón Deshabilitado */
+.win98-button:disabled {
+    background-color: #c0c0c0;
+    color: #808080; /* Texto grisáceo */
+    text-shadow: 1px 1px 0 #ffffff; /* Sombra blanca para emular relieve */
+    border-color: #ffffff #808080 #808080 #ffffff; /* Borde normal pero color de texto cambia */
+    box-shadow: inset 1px 1px 0px 1px #dbdbdb, inset -1px -1px 0px 1px #a0a0a0;
+    cursor: default;
+    opacity: 0.8; /* Ligera transparencia opcional */
+}
+
+/* Campo de Texto */
+.win98-textfield {
+    height: 21px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #808080 #ffffff #ffffff #808080; /* Borde inset */
+    padding: 2px 4px;
+    box-shadow: inset 1px 1px #a0a0a0; /* Sombra interior */
+}
+.win98-textfield:focus {
+    outline: none; /* Sin outline extra */
+}
+
+/* Área de Texto */
+textarea.win98-inset { /* Si es un textarea con borde hundido */
+    border: 1px solid;
+    border-color: #808080 #ffffff #ffffff #808080; /* Borde inset */
+    padding: 3px;
+    background-color: #ffffff;
+    box-shadow: inset 1px 1px #a0a0a0;
+    resize: none; /* Evitar redimensionamiento manual */
+}
+
+/* Borde Hundido (Inset) */
+.win98-inset {
+    border: 1px solid;
+    border-color: #808080 #ffffff #ffffff #808080; /* Borde inset */
+    /* padding: 2px; */ /* Padding depende del elemento específico */
+    /* background-color: #ffffff; */ /* Fondo depende */
+    box-shadow: inset 1px 1px 0px 1px #a0a0a0;
+}
+/* Borde Elevado (Outset) - Menos común */
+.win98-outset {
+    border: 1px solid;
+    border-color: #ffffff #808080 #808080 #ffffff; /* Borde outset */
+    box-shadow: inset 1px 1px 0px 1px #dbdbdb;
+}
+
+/* Contenedor de Grupo (Fieldset) */
+.win98-groupbox {
+    border: 1px solid #808080;
+    border-top-color: #ffffff;
+    padding: 10px;
+    margin: 5px;
+    position: relative;
+}
+.win98-groupbox-legend {
+    position: absolute;
+    top: -0.7em;
+    left: 8px;
+    background-color: #c0c0c0; /* Mismo fondo que el contenedor */
+    padding: 0 4px;
+}
+
+
+/* --- Layout Principal (#main-ui) --- */
+#main-ui {
+    width: 100%;
+    height: 100%;
+    /* display: flex; */ /* Ya se aplica desde body.app-loaded */
+    /* flex-direction: column; */
+}
+
+/* Escritorio */
+#desktop {
+    flex-grow: 1; /* Ocupa espacio vertical restante */
+    position: relative; /* Contexto para ventanas e iconos */
+    padding: 5px;
+    /* Usar flex para alinear iconos */
+    display: flex;
+    flex-direction: column; /* Iconos en columnas */
+    flex-wrap: wrap; /* Envolver a la siguiente columna */
+    align-content: flex-start; /* Empezar columnas a la izquierda */
+    gap: 1px; /* Espacio mínimo entre iconos */
+    overflow: hidden; /* Evitar scroll accidental */
+}
+
+/* Barra de Tareas */
+#taskbar {
+    height: 28px; /* Alto más preciso */
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    display: flex;
+    align-items: stretch; /* Estirar items para llenar altura */
+    padding: 2px;
+    position: relative;
+    z-index: 1000; /* Siempre encima */
+    gap: 2px; /* Espacio entre elementos de la barra */
+}
+
+#start-button {
+    min-width: 70px;
+    font-weight: bold;
+    padding: 2px 6px; /* Ajustar padding */
+}
+#start-button img {
+    margin-right: 3px;
+    width: 16px; height: 16px; /* Asegurar tamaño */
+}
+
+/* Separador en Barra de Tareas */
+.taskbar-separator {
+    width: 1px;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #ffffff;
+    margin: 1px 2px; /* Margen vertical y horizontal */
+}
+
+/* Contenedor Botones de Ventanas Minimizadas */
+#taskbar-windows {
+    flex-grow: 1; /* Ocupa el espacio */
+    display: flex;
+    gap: 2px;
+    overflow: hidden; /* Evitar desbordamiento */
+    min-width: 50px; /* Evitar que desaparezca */
+}
+
+/* Botón de Ventana en Taskbar */
+.taskbar-button {
+    flex-grow: 0; /* No crecer por defecto */
+    flex-shrink: 1; /* Encoger si es necesario */
+    min-width: 50px;
+    max-width: 160px; /* Limitar ancho */
+    padding: 2px 5px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Hereda estilos de .win98-button, ajustar si es necesario */
+    box-shadow: none; /* Quitar sombra interna */
+    border-color: #ffffff #808080 #808080 #ffffff; /* Borde normal */
+}
+.taskbar-button.active {
+    /* Estilo presionado */
+    border-color: #808080 #ffffff #ffffff #808080;
+    background-color: #e0e0e0; /* Fondo ligeramente diferente? O solo borde */
+    padding: 3px 4px 1px 6px; /* Ajuste de padding */
+    font-weight: bold; /* Texto en negrita */
+}
+
+/* Indicador de Almacenamiento y Reloj (Área de Notificación) */
+#storage-indicator,
+#clock {
+    padding: 2px 6px; /* Padding más ajustado */
+    margin: 1px 0; /* Margen vertical para alinear */
+    border: 1px solid #808080; /* Borde inset */
+    border-right-color: #ffffff;
+    border-bottom-color: #ffffff;
+    background-color: #c0c0c0; /* Mismo fondo gris */
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+#storage-indicator {
+    gap: 4px;
+    cursor: help; /* Indicar que hay tooltip */
+}
+#storage-text {
+    font-size: 10px; /* Más pequeño */
+}
+.storage-icon {
+    width: 16px; height: 16px;
+}
+
+#clock {
+    min-width: 45px; /* Más ajustado */
+    text-align: center;
+    font-size: 10px; /* Más pequeño */
+    padding: 2px 4px;
+}
+
+
+/* --- Iconos (Escritorio y Carpetas) --- */
+.desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75px; /* Ancho contenedor */
+    height: 75px; /* Alto contenedor (para layout en columnas) */
+    padding: 4px;
+    text-align: center;
+    cursor: default;
+    border: 1px solid transparent; /* Borde invisible para hover/selected */
+    position: relative; /* Para posible texto flotante */
+}
+.desktop-icon img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 3px;
+}
+.desktop-icon .icon-text {
+    display: block; /* O inline-block */
+    width: 100%; /* Ocupar ancho del contenedor */
+    color: #ffffff; /* Texto blanco en escritorio */
+    background-color: transparent;
+    padding: 1px 2px;
+    /* Simular límite de 2 líneas */
+    line-height: 1.2;
+    max-height: 2.6em; /* Ajustar si es necesario */
+    overflow: hidden;
+    text-overflow: ellipsis; /* No estándar en Win98 pero útil */
+    /* Word wrap no es típico, Win98 cortaba */
+    white-space: normal; /* Permitir salto de línea */
+}
+
+/* Selección de Icono */
+.desktop-icon:focus,
+.desktop-icon.selected {
+    outline: none;
+    border: 1px dotted #000000; /* Borde punteado negro */
+    background-color: #000080; /* Fondo azul sólido al seleccionar */
+}
+/* El texto cambia al seleccionar */
+.desktop-icon:focus .icon-text,
+.desktop-icon.selected .icon-text {
+    background-color: #000080; /* Asegurar fondo azul */
+    color: #ffffff; /* Asegurar texto blanco */
+    /* Para simular el highlight del texto: */
+    /* No es fácil sin JS, pero se puede intentar */
+}
+
+/* Iconos dentro de carpetas (fondo blanco) */
+.folder-content .desktop-icon .icon-text {
+    color: #000000; /* Texto negro */
+    background-color: transparent; /* O #ffffff si quieres que siempre tenga fondo blanco */
+}
+.folder-content .desktop-icon:focus,
+.folder-content .desktop-icon.selected {
+    background-color: #000080; /* Fondo azul al seleccionar */
+    border-color: #000000; /* Borde punteado negro */
+}
+.folder-content .desktop-icon:focus .icon-text,
+.folder-content .desktop-icon.selected .icon-text {
+    background-color: #000080; /* Fondo azul */
+    color: #ffffff; /* Texto blanco */
+}
+
+
+/* --- Ventanas --- */
+.win98-window {
+    position: absolute;
+    background-color: #c0c0c0;
+    border: 1px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    box-shadow: 1px 1px 0 1px #a0a0a0, 2px 2px 4px rgba(0,0,0,0.4); /* Sombra + relieve */
+    min-width: 150px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    /* z-index gestionado por JS */
+}
+
+.title-bar {
+    background: linear-gradient(to right, #000080, #1084d0); /* Degradado clásico */
+    padding: 2px 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+    font-weight: bold;
+    height: 18px; /* Alto preciso */
+    flex-shrink: 0; /* Evitar que se encoja */
+}
+.title-bar.draggable-handle {
+    cursor: grab;
+}
+.title-bar.draggable-handle:active {
+    cursor: grabbing;
+}
+
+/* Título Ventana Inactiva */
+.title-bar.inactive {
+    background: linear-gradient(to right, #7f7f7f, #c0c0c0); /* Degradado gris */
+    color: #c0c0c0; /* Texto gris claro */
+}
+.title-bar.inactive .title-bar-text {
+    color: #a0a0a0; /* Más oscuro para contraste */
+}
+
+
+.title-bar-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 2px;
+    flex-grow: 1; /* Ocupar espacio */
+}
+/* Icono de ventana (opcional) */
+.title-bar-icon {
+    width: 16px; height: 16px;
+    margin-right: 3px;
+    /* background-image: url(...); */
+}
+
+.title-bar-controls {
+    display: flex;
+    flex-shrink: 0; /* Evitar encoger */
+}
+.title-bar-controls button {
+    width: 16px;
+    height: 14px;
+    min-width: 16px;
+    padding: 0;
+    margin-left: 2px;
+    font-family: "Marlett", sans-serif; /* Fuente con símbolos */
+    font-size: 10px;
+    line-height: 14px;
+    /* Símbolos comunes: 0 (min), 1/2 (max/restore), r (close) */
+}
+/* Estilos botones ventana */
+.title-bar-controls .btn-minimize::before { content: "0"; }
+.title-bar-controls .btn-maximize::before { content: "1"; } /* Cambiar a '2' si maximizada */
+.title-bar-controls .btn-close::before { content: "r"; }
+
+/* Cuerpo de la Ventana */
+.window-body {
+    padding: 0; /* Sin padding por defecto, se añade en contenido específico */
+    flex-grow: 1; /* Ocupa espacio */
+    background-color: #c0c0c0;
+    overflow: hidden; /* Evitar scroll por defecto, el contenido lo maneja */
+    display: flex; /* Para que el contenido interno pueda usar flex */
+    flex-direction: column; /* Dirección por defecto */
+}
+
+/* Área de contenido con borde inset (como folder-content) */
+.content-area {
+    flex-grow: 1; /* Ocupar espacio dentro del body */
+    margin: 2px; /* Margen para ver borde */
+    padding: 4px; /* Padding interno */
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #808080 #ffffff #ffffff #808080; /* Borde inset */
+    box-shadow: inset 1px 1px 0px 1px #a0a0a0;
+    overflow: auto; /* Scroll si el contenido se desborda */
+}
+
+/* Barra de Estado de Ventana */
+.status-bar {
+    display: flex;
+    height: 18px; /* Alto típico */
+    padding: 1px 2px;
+    border-top: 1px solid #808080;
+    border-top-color: #ffffff; /* Relieve */
+    background-color: #c0c0c0;
+    flex-shrink: 0; /* No encoger */
+}
+.status-bar-field {
+    border: 1px solid #808080; /* Borde inset */
+    border-right-color: #ffffff;
+    border-bottom-color: #ffffff;
+    padding: 0px 4px;
+    margin-right: 2px;
+    line-height: 15px; /* Centrar texto verticalmente */
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.status-bar-field:last-child {
+    margin-right: 0;
+}
+
+
+/* --- Menú Contextual --- */
+.win98-menu {
+    background-color: #c0c0c0;
+    border: 1px solid;
+    border-color: #ffffff #808080 #808080 #ffffff; /* Borde outset */
+    box-shadow: 1px 1px 0 1px #a0a0a0, 2px 2px 4px rgba(0,0,0,0.4); /* Sombra */
+    padding: 1px; /* Padding fino */
+    list-style: none;
+    min-width: 120px;
+}
+.win98-menu li {
+    padding: 0;
+    margin: 1px 0; /* Espacio entre items */
+}
+.win98-menu button {
+    background: none;
+    border: 1px solid transparent;
+    box-shadow: none;
+    width: 100%;
+    text-align: left;
+    padding: 2px 20px; /* Padding vertical e izquierdo para texto */
+    min-width: unset;
+    min-height: 18px; /* Alto de item */
+    display: block;
+    line-height: 14px; /* Alinear texto */
+    white-space: nowrap;
+}
+.win98-menu button:hover,
+.win98-menu button:focus {
+    background-color: #000080; /* Azul de selección */
+    color: #ffffff;
+    outline: none;
+    border: 1px solid transparent;
+}
+.win98-menu button:active {
+     background-color: #000080;
+     color: #ffffff;
+     padding: 2px 20px; /* Evitar desplazamiento */
+}
+.win98-menu button:disabled { /* Opción deshabilitada */
+    color: #808080;
+    background: none;
+    text-shadow: 1px 1px 0 #ffffff;
+}
+
+.win98-menu li.separator {
+    height: 1px;
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #ffffff;
+    margin: 3px 1px;
+    padding: 0;
+    min-height: unset;
+}
+
+
+/* --- Componentes Específicos --- */
+
+/* Diálogo de Autenticación */
+.auth-dialog {
+    position: absolute; /* Centrado por JS o body flex */
+    width: 320px;
+    z-index: 3000; /* Encima de todo al inicio */
+}
+.auth-dialog .window-body {
+     padding: 15px;
+}
+.auth-dialog h3 {
+    font-size: 1.1em;
+    margin-bottom: 12px;
+    padding-bottom: 5px;
+    font-weight: normal; /* Títulos no suelen ser negrita */
+}
+.auth-dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.field-row-stacked {
+     display: flex;
+     flex-direction: column;
+     gap: 4px;
+}
+.auth-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* O flex-end */
+    gap: 6px;
+}
+.auth-switch {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 10px;
+}
+.error-message, .success-message {
+    text-align: center;
+    margin-top: 8px;
+    min-height: 1.2em;
+    font-weight: bold;
+}
+.error-message { color: #FF0000; }
+.success-message { color: #008000; }
+
+
+/* Vista de Carpeta */
+.folder-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ocupar espacio del window-body */
+    background-color: #ffffff; /* Fondo blanco */
+}
+.folder-toolbar {
+    padding: 2px;
+    border-bottom: 1px solid #c0c0c0; /* Separador */
+    background-color: #c0c0c0; /* Fondo gris */
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0; /* No encoger */
+    height: 24px; /* Alto fijo */
+}
+.folder-toolbar .win98-button {
+     min-width: unset;
+     padding: 1px 4px;
+     height: 20px; /* Botones más pequeños */
+     font-size: 10px;
+}
+.folder-toolbar .toolbar-separator { /* Separador vertical en toolbar */
+    width: 1px; border-left: 1px solid #808080; border-right: 1px solid #ffffff; margin: 1px 2px;
+}
+
+.folder-content { /* Ya tiene clase .content-area */
+    display: flex; /* Usar flex para alinear iconos */
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 1px; /* Espacio mínimo */
+}
+/* Ya heredan estilos de .desktop-icon y .folder-content .desktop-icon */
+
+/* Barra de estado en carpeta */
+.folder-view .status-bar {
+    border-top-color: #c0c0c0; /* Sin relieve dentro de blanco */
+    background: #c0c0c0; /* Fondo gris */
+}
+.folder-view .status-bar .status-bar-field {
+     background: #c0c0c0;
+}
+
+
+/* Contenedores Media */
+.media-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrar verticalmente */
+    align-items: center;
+    background-color: #000000;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    padding: 10px;
+}
+.media-container video, .media-container audio {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+.audio-container { background: #c0c0c0; padding: 20px; }
+.audio-info { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; width: 100%; }
+.audio-icon { width: 48px; height: 48px; flex-shrink: 0;}
+.audio-metadata { font-size: 12px; overflow: hidden; }
+.audio-metadata p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.audio-title { font-weight: bold; }
+.audio-artist, .audio-album { font-size: 11px; color: #333; }
+.audio-container audio { margin-top: auto; /* Poner controles abajo */ }
+
+
+/* Visor/Editor de Texto */
+.text-editor-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%; height: 100%;
+}
+.editor-menu {
+    padding: 2px;
+    border-bottom: 1px solid #c0c0c0;
+    background: #c0c0c0;
+    flex-shrink: 0;
+}
+.editor-menu .win98-button {
+    min-width: 50px; padding: 1px 5px; height: 20px; font-size: 10px;
+}
+.text-editor-area {
+    flex-grow: 1;
+    margin: 2px;
+    padding: 4px;
+    font-family: "Lucida Console", "Courier New", monospace; /* Fuente monoespaciada */
+    font-size: 12px; /* Tamaño legible */
+    line-height: 1.4;
+    background-color: #ffffff;
+    color: #000000;
+    /* Hereda borde inset de textarea.win98-inset */
+    overflow: auto; /* Scroll necesario */
+    white-space: pre; /* Mantener espacios y saltos */
+    word-wrap: break-word; /* Opcional: ajustar línea */
+}
+
+
+/* Diálogos (Crear Carpeta, etc.) */
+.dialog-content {
+     padding: 10px 12px;
+}
+.dialog-content p {
+    margin-bottom: 8px; /* Espacio antes de input/botones */
+}
+.dialog-content label {
+    display: inline-block; /* O block si quieres encima */
+    margin-right: 5px;
+}
+.dialog-content input[type="text"],
+.dialog-content input[type="url"],
+.dialog-content input[type="file"] {
+    width: 100%; /* Ocupar ancho disponible */
+    margin-bottom: 8px;
+}
+.dialog-buttons {
+     margin-top: 15px;
+     display: flex;
+     justify-content: flex-end; /* Botones a la derecha */
+     gap: 6px;
+}
+.dialog-content .error-message {
+    color: #FF0000;
+    margin-top: 10px;
+}
+
+/* Barra de Progreso */
+.progress-bar {
+    height: 14px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #808080 #ffffff #ffffff #808080; /* Borde inset */
+    padding: 1px; /* Espacio interior */
+}
+.progress-bar-fill {
+    height: 100%;
+    width: 0%; /* Inicia en 0 */
+    background-color: #000080; /* Azul */
+    transition: width 0.2s linear; /* Suavizar cambio */
+}
+
+
+/* --- Clases de Utilidad y Estado --- */
+
+/* Para elementos arrastrándose */
+.dragging {
+    opacity: 0.8;
+    cursor: grabbing !important;
+}
+.draggable-handle { /* Aplicar a la barra de título */
+    cursor: grab;
+}
+.draggable-handle:active {
+     cursor: grabbing;
+}
+
+/* Indicadores de carga/error */
+.loading-indicator, .error-indicator {
+    display: block;
+    padding: 20px;
+    text-align: center;
+    font-style: italic;
+    color: #555;
+}
+.error-indicator {
+    color: #c00000;
+    font-weight: bold;
+}
+
+
+/* --- Media Queries (Ajustes Responsivos Básicos) --- */
+/* Ocultar/reducir elementos en pantallas muy pequeñas */
+@media (max-width: 480px) {
+    #taskbar {
+        gap: 1px;
+    }
+    #start-button span {
+        display: none; /* Ocultar texto "Inicio" */
+    }
+    #start-button {
+        min-width: 30px;
+        padding: 2px 4px;
+    }
+    #storage-indicator {
+        padding: 2px 3px;
+        gap: 2px;
+    }
+    #storage-text {
+        /* Podría ocultarse o hacerse muy pequeño */
+        font-size: 9px;
+        /* display: none; */
+    }
+    #clock {
+        padding: 2px 3px;
+        font-size: 9px;
+    }
+    /* Reducir tamaño de iconos */
+    .desktop-icon {
+        width: 60px; height: 60px;
+    }
+    .desktop-icon img {
+        width: 24px; height: 24px;
+    }
+    .desktop-icon .icon-text {
+        font-size: 10px;
+    }
+
+    /* Ventanas podrían necesitar ajustes */
+    .win98-window {
+         /* min-width: 120px; */
+         /* min-height: 80px; */
+    }
+}
