@@ -1,0 +1,15 @@
+# Server Configuration
+PORT=3000
+NODE_ENV=development # Cambia a 'production' en despliegue
+
+# Database Configuration
+DB_HOST=localhost
+DB_USER=root     # Tu usuario de MySQL
+DB_PASSWORD=contraseña  # Tu contraseña de MySQL
+DB_NAME=win98sim_db   # El nombre de tu base de datos
+
+# Session Configuration
+SESSION_SECRET=soyunpepinillomorty # ¡CAMBIA ESTO!
+
+# File Upload Configuration (Opcional, para Multer si necesitas)
+MAX_FILE_SIZE_BYTES=10737418240 # Límite de subida (ej: 10 GB) - ¡Cuidado con el espacio!
